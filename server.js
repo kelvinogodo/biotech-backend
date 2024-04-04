@@ -22,12 +22,12 @@ app.post('/api/register', async (req, res) => {
   try {
      await User.create({
       fullname: req.body.fullname,
-      membertype:req.body.userName,
+      membertype:req.body.membertype,
       email: req.body.email,
       password: req.body.password,
       phonenumber:req.body.phone
     });
-    
+    return res.status(200)
   } catch (error) {
     return res.json({ status: 'error', error: error })
   }
@@ -161,11 +161,11 @@ app.get('/api/getUsers', async (req, res) => {
 })
 
 
-app.get('api/posts/:id', async(req,res)=>{
+app.get('/api/posts/:id', async(req,res)=>{
   try {
     const post = await Post.findOne({_id:req.params.id})
     if(!post){
-      return res.json({status:404})
+      return res.json({message:'post not found'})
     } else {
       return res.json({status:200,post:post})
     }
