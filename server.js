@@ -25,9 +25,9 @@ app.post('/api/register', async (req, res) => {
       membertype:req.body.membertype,
       email: req.body.email,
       password: req.body.password,
-      phonenumber:req.body.phone
+      phone:req.body.phone
     });
-    return res.status(200)
+    return res.json({ status: 200 })
   } catch (error) {
     return res.json({ status: 'error', error: error })
   }
@@ -42,8 +42,6 @@ app.post('/api/createPost', async (req, res) => {
     return res.json({ status: 'error', error: error })
   }
 })
-
-
 
 app.get('/api/getData', async (req, res) => {
   const token = req.headers['x-access-token']
@@ -79,7 +77,7 @@ app.patch('/api/updateUserData', async(req,res)=>{
 app.patch('/api/editPost', async(req,res)=>{
   try {
     await Post.updateOne({ _id: req.body.id }, {
-      $set: { body: req.body.body,title:req.body.title }
+      $set: { body: req.body.body,title:req.body.title, url:req.body.url }
     })
     return res.json({status:'ok'})
   } catch (error) {
