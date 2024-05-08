@@ -21,7 +21,8 @@ app.post('/api/register', async (req, res) => {
   
   try {
      await User.create({
-      fullname: req.body.fullname,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
       membertype:req.body.membertype,
       email: req.body.email,
       password: req.body.password,
@@ -29,6 +30,7 @@ app.post('/api/register', async (req, res) => {
     });
     return res.json({ status: 200 })
   } catch (error) {
+    console.log(error)
     return res.json({ status: 'error', error: error })
   }
 })
@@ -51,7 +53,8 @@ app.get('/api/getData', async (req, res) => {
     const user = await User.findOne({ email: email })
     res.json({
       status: 'ok',
-      fullname: user.firstname,
+      firstname: user.firstname,
+      lastname: user.lastname,
       phone: user.phone,
       membertype: user.membertype,
       email: user.email,
