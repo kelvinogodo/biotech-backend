@@ -122,7 +122,7 @@ app.delete('/api/deletePost', async (req, res) => {
 
 app.delete('/api/deletePdf', async (req, res) => {
  try {
-   await Post.deleteOne({ file_url: req.body.id })
+   await Pdf.deleteOne({ file_url: req.body.id })
         return res.json({status:200})
     } catch (error) {
         console.log(error)
