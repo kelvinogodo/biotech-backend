@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const User = require('./models/user.model')
 const Admin = require('./models/admin')
 const Post = require('./models/post')
+const Pdf = require('./models/file')
 const jwt = require('jsonwebtoken')
 dotenv.config()
 
@@ -40,6 +41,16 @@ app.post('/api/createPost', async (req, res) => {
     await Post.create(req.body);
     const newPostArray = await Post.find()
     res.json({status:'ok', posts: newPostArray})
+  } catch (error) {
+    return res.json({ status: 'error', error: error })
+  }
+})
+
+app.post('/api/createIndex', async (req, res) => {
+  try {
+    await Pdf.create(req.body);
+    const newPostArray = await Pdf.find()
+    res.json({status:'ok', pdfs: newPostArray})
   } catch (error) {
     return res.json({ status: 'error', error: error })
   }
@@ -102,6 +113,16 @@ app.post('/api/admin', async (req, res) => {
 app.delete('/api/deletePost', async (req, res) => {
  try {
    await Post.deleteOne({ _id: req.body.id })
+        return res.json({status:200})
+    } catch (error) {
+        console.log(error)
+       return res.json(error)
+    }
+})
+
+app.delete('/api/deletePdf', async (req, res) => {
+ try {
+   await Post.deleteOne({ file_url: req.body.id })
         return res.json({status:200})
     } catch (error) {
         console.log(error)
@@ -178,6 +199,12 @@ app.get('/api/posts/:id', async(req,res)=>{
 app.get('/api/fetchPosts', async (req, res) => {
   const posts = await Post.find()
     if(posts != []){ res.status(200).json(posts)}
+    else{ res.status(200).json([])}
+})
+
+app.get('/api/fetchPdfs', async (req, res) => {
+  const pdfs = await Pdf.find()
+    if(pdfs != []){ res.status(200).json(pdfs)}
     else{ res.status(200).json([])}
 })
 
